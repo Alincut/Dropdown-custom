@@ -163,6 +163,9 @@ label {
 .Dropdown-menu-list-option:hover {
     background-color: var(--col-100);
 }
+.Dropdown-menu-list-option.is-active {
+    background-color: var(--col-100);
+}
 
 .Dropdown-menu-list-option .bx {
     padding: 0 10px;
