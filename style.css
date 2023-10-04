@@ -32,12 +32,14 @@ body {
     width: 100vw;
 }
 
-label {
-    color: var(--txtsvg-pry);
+form {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    width: fit-content;
+}
+
+label {
+    color: var(--txtsvg-pry);
     font-size: 1.4rem;
     font-weight: 700;
 }
@@ -156,14 +158,15 @@ label {
     --scale-option: 1;
 }
 
+.Dropdown-menu-list-option.is-active {
+    background-color: var(--col-100);
+}
+
 .Dropdown-menu-list-option:last-child {
     border-bottom: none;
 }
 
 .Dropdown-menu-list-option:hover {
-    background-color: var(--col-100);
-}
-.Dropdown-menu-list-option.is-active {
     background-color: var(--col-100);
 }
 
