@@ -20,56 +20,59 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <label for="hid">
-      Auto:
-      <div id="Dropdwon01" class="Dropdown">
-        <input type="hidden" name="hid" />
-        <div class="Dropdown-toggle">
-          <input
-            type="text"
-            class="Dropdown-toggle-search"
-            placeholder="Elija un auto"
-          />
-          <i class="bx bx-expand-vertical"></i>
-        </div>
-        <div class="Dropdown-menu">
-          <div class="Dropdown-menu-header">
-            Lista
-            <i class="bx bx-x"></i>
+    <form autocomplete="off">
+      <label for="search1">
+        Auto:
+        <div id="Dropdwon01" class="Dropdown">
+          <input type="hidden" />
+          <div class="Dropdown-toggle">
+            <input
+              type="text"
+              id="search1"
+              class="Dropdown-toggle-search"
+              placeholder="Elija un auto"
+            />
+            <i class="bx bx-expand-vertical"></i>
           </div>
-          <ul class="Dropdown-menu-list">
-            <li class="Dropdown-menu-list-option">
-              <i class="bx bx-check"></i>
-              Ferrari
-            </li>
-            <li class="Dropdown-menu-list-option">
-              <i class="bx bx-check"></i>
-              Dodge
-            </li>
-            <li class="Dropdown-menu-list-option">
-              <i class="bx bx-check"></i>
-              Nissan
-            </li>
-            <li class="Dropdown-menu-list-option">
-              <i class="bx bx-check"></i>
-              Honda
-            </li>
-            <li class="Dropdown-menu-list-option">
-              <i class="bx bx-check"></i>
-              Toyota
-            </li>
-            <li class="Dropdown-menu-list-option">
-              <i class="bx bx-check"></i>
-              Mercedes
-            </li>
-            <li class="Dropdown-menu-list-option">
-              <i class="bx bx-check"></i>
-              Hyundai
-            </li>
-          </ul>
+          <div class="Dropdown-menu">
+            <div class="Dropdown-menu-header">
+              Lista
+              <i class="bx bx-x"></i>
+            </div>
+            <ul class="Dropdown-menu-list">
+              <li class="Dropdown-menu-list-option">
+                <i class="bx bx-check"></i>
+                Ferrari
+              </li>
+              <li class="Dropdown-menu-list-option">
+                <i class="bx bx-check"></i>
+                Dodge
+              </li>
+              <li class="Dropdown-menu-list-option">
+                <i class="bx bx-check"></i>
+                Nissan
+              </li>
+              <li class="Dropdown-menu-list-option">
+                <i class="bx bx-check"></i>
+                Honda
+              </li>
+              <li class="Dropdown-menu-list-option">
+                <i class="bx bx-check"></i>
+                Toyota
+              </li>
+              <li class="Dropdown-menu-list-option">
+                <i class="bx bx-check"></i>
+                Mercedes
+              </li>
+              <li class="Dropdown-menu-list-option">
+                <i class="bx bx-check"></i>
+                Hyundai
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </label>
+      </label>
+    </form>
 
     <script src="./main.js"></script>
   </body>
