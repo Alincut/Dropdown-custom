@@ -15,6 +15,7 @@ function startDropdown(event_1) {
       dropdown.classList.remove("is-open");
       window.removeEventListener("click", handlingEvents);
       window.removeEventListener("keydown", handlingEvents);
+      window.removeEventListener("keyup", handlingEvents);
       console.log("%ccerrado", "color: lightcoral");
     }
     function handlingEvents(event) {
@@ -75,15 +76,18 @@ function startDropdown(event_1) {
               );
               setClass(option_list[focus_index], "is-focused");
               break;
-            default:
-              break;
           }
+          break;
+        case "keyup":
+          let search = dropdown.querySelector(".Dropdown-toggle-search");
+          console.log(search.value);
           break;
       }
     }
     dropdown.classList.add("is-open");
     window.addEventListener("click", handlingEvents);
     window.addEventListener("keydown", handlingEvents);
+    window.addEventListener("keyup", handlingEvents);
     console.log("%cabierto", "color: lightgreen");
   }
 }

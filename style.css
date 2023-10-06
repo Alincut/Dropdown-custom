@@ -138,7 +138,7 @@ label {
 .Dropdown-menu-list {
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 100%;
+  height: fit-content;
   max-height: 180px;
   list-style: none;
 }
@@ -173,6 +173,10 @@ label {
   border-color: var(--col-200);
   font-weight: 700;
   --scale-option: 1;
+}
+
+.Dropdown-menu-list-option.is-notMatch {
+  transform: scale(0);
 }
 
 .Dropdown-menu-list-option.is-selected + .Dropdown-menu-list-option {
