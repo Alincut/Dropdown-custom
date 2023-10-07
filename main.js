@@ -2,6 +2,8 @@
 function startDropdown(event_1) {
   const dropdown = event_1.target.closest(".Dropdown");
   if (dropdown && !dropdown.classList.contains("is-open")) {
+    const list = dropdown.querySelector(".Dropdown-menu-list");
+    const search = dropdown.querySelector(".Dropdown-toggle-search");
     const option_list = Array.from(
       dropdown.querySelectorAll(".Dropdown-menu-list-option")
     );
@@ -23,8 +25,7 @@ function startDropdown(event_1) {
         option_list.forEach((option) => {
           option.classList.toggle(classname, option === element);
         });
-        dropdown.querySelector(".Dropdown-menu-list").scrollTop =
-          option_list.indexOf(element) * 36;
+        list.scrollTop = option_list.indexOf(element) * 36;
       }
       function setValues(element) {
         [".Dropdown-toggle-search", "input[type='hidden']"].forEach(
@@ -79,8 +80,20 @@ function startDropdown(event_1) {
           }
           break;
         case "keyup":
-          let search = dropdown.querySelector(".Dropdown-toggle-search");
-          console.log(search.value);
+          let matching_options = 0;
+          option_list.forEach((option) => {
+            if (
+              option.innerText
+                .toLowerCase()
+                .includes(search.value.toLowerCase())
+            ) {
+              option.classList.remove("is-hidden");
+              matching_options++;
+            } else {
+              option.classList.add("is-hidden");
+            }
+          });
+          list.classList.toggle("is-short", matching_options <= 5);
           break;
       }
     }

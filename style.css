@@ -143,6 +143,10 @@ label {
   list-style: none;
 }
 
+.Dropdown-menu-list.is-short {
+  overflow-y: hidden;
+}
+
 .Dropdown-menu-list-option {
   overflow: hidden;
   color: var(--txtsvg-pry);
@@ -175,11 +179,11 @@ label {
   --scale-option: 1;
 }
 
-.Dropdown-menu-list-option.is-notMatch {
-  transform: scale(0);
+.Dropdown-menu-list-option.is-hidden {
+  display: none;
 }
 
-.Dropdown-menu-list-option.is-selected + .Dropdown-menu-list-option {
+.Dropdown-menu-list-option.is-selected+.Dropdown-menu-list-option {
   border-color: var(--col-200);
 }
 
