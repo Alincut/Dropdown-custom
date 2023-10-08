@@ -2,6 +2,7 @@
 function startDropdown(event_1) {
   const dropdown = event_1.target.closest(".Dropdown");
   if (dropdown && !dropdown.classList.contains("is-open")) {
+    const menu = dropdown.querySelector(".Dropdown-menu");
     const list = dropdown.querySelector(".Dropdown-menu-list");
     const search = dropdown.querySelector(".Dropdown-toggle-search");
     const option_list = Array.from(
@@ -94,6 +95,7 @@ function startDropdown(event_1) {
             }
           });
           list.classList.toggle("is-short", matching_options <= 5);
+          menu.classList.toggle("is-empty", matching_options <= 0);
           break;
       }
     }
