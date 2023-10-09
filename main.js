@@ -1,24 +1,23 @@
-// Actividad del menu desplegable
+// Creamos la función de delegación de eventos
+function handleEvents(global_event) {
+  const dropdown = global_event.target.closest(".Dropdown");
+}
+
 function startDropdown(event_1) {
   const dropdown = event_1.target.closest(".Dropdown");
   if (dropdown && !dropdown.classList.contains("is-open")) {
+    const search = dropdown.querySelector(".Dropdown-toggle-search");
     const menu = dropdown.querySelector(".Dropdown-menu");
     const list = dropdown.querySelector(".Dropdown-menu-list");
-    const search = dropdown.querySelector(".Dropdown-toggle-search");
     const option_list = Array.from(
       dropdown.querySelectorAll(".Dropdown-menu-list-option")
     );
-    option_list.forEach((option) => {
-      option.classList.toggle(
-        "is-focused",
-        option.classList.contains("is-selected")
-      );
-    });
     function close() {
       dropdown.classList.remove("is-open");
-      window.removeEventListener("click", handlingEvents);
-      window.removeEventListener("keydown", handlingEvents);
-      window.removeEventListener("keyup", handlingEvents);
+      search.blur();
+      document.removeEventListener("click", handlingEvents);
+      document.removeEventListener("keydown", handlingEvents);
+      document.removeEventListener("keyup", handlingEvents);
       console.log("%ccerrado", "color: lightcoral");
     }
     function handlingEvents(event) {
@@ -55,6 +54,9 @@ function startDropdown(event_1) {
           }
           break;
         case "keydown":
+          // let matching_options_list = option_list.forEach(option => {
+
+          // });
           let focus_index = option_list.findIndex((option) =>
             option.classList.contains("is-focused")
           );
@@ -81,7 +83,7 @@ function startDropdown(event_1) {
           }
           break;
         case "keyup":
-          let matching_options = 0;
+          let matching_options2 = 0;
           option_list.forEach((option) => {
             if (
               option.innerText
@@ -89,25 +91,57 @@ function startDropdown(event_1) {
                 .includes(search.value.toLowerCase())
             ) {
               option.classList.remove("is-hidden");
-              matching_options++;
+              matching_options2++;
             } else {
               option.classList.add("is-hidden");
             }
           });
-          list.classList.toggle("is-short", matching_options <= 5);
-          menu.classList.toggle("is-empty", matching_options <= 0);
+          let first_option = option_list.find(
+            (option) => !option.classList.contains("is-hidden")
+          );
+          option_list.forEach((option) => {
+            option.classList.toggle("is-up", option === first_option);
+          });
+          list.classList.toggle("is-short", matching_options2 <= 5);
+          menu.classList.toggle("is-empty", matching_options2 <= 0);
           break;
       }
     }
+    option_list.forEach((option) => {
+      option.classList.toggle(
+        "is-focused",
+        option.classList.contains("is-selected")
+      );
+    });
+    let first_option = option_list.find(
+      (option) => !option.classList.contains("is-hidden")
+    );
+    option_list.forEach((option) => {
+      option.classList.toggle("is-up", option === first_option);
+    });
+    // Preparamos la lista
+    search.value = "";
+    // Abrir el menu desplegable
     dropdown.classList.add("is-open");
-    window.addEventListener("click", handlingEvents);
-    window.addEventListener("keydown", handlingEvents);
-    window.addEventListener("keyup", handlingEvents);
+    let matching_options = 0;
+    option_list.forEach((option) => {
+      if (option.innerText.toLowerCase().includes(search.value.toLowerCase())) {
+        option.classList.remove("is-hidden");
+        matching_options++;
+      } else {
+        option.classList.add("is-hidden");
+      }
+    });
+    list.classList.toggle("is-short", matching_options <= 5);
+    menu.classList.toggle("is-empty", matching_options <= 0);
+    document.addEventListener("click", handlingEvents);
+    document.addEventListener("keydown", handlingEvents);
+    document.addEventListener("keyup", handlingEvents);
     console.log("%cabierto", "color: lightgreen");
   }
 }
 
-// Escuchadores globales
-window.addEventListener("click", startDropdown);
-window.addEventListener("focusin", startDropdown);
-window.addEventListener("submit", (event) => event.preventDefault());
+// Establecemos los escuchadores globales
+document.addEventListener("click", handleEvents);
+document.addEventListener("focusin", handleEvents);
+document.addEventListener("submit", (event) => event.preventDefault());

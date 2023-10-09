@@ -80,6 +80,11 @@ label {
   box-shadow: var(--shadow-toggle, none);
 }
 
+.Dropdown-toggle:hover {
+  border-color: var(--col-400);
+  outline-color: var(--col-400);
+}
+
 .Dropdown-toggle-search {
   background-color: transparent;
   color: var(--txtsvg-pry);
@@ -167,7 +172,11 @@ label {
   background-color: var(--col-100);
 }
 
-.Dropdown-menu-list-option:first-child {
+/* .Dropdown-menu-list-option:first-child {
+  border-top: none;
+} */
+
+.Dropdown-menu-list-option.is-up {
   border-top: none;
 }
 
