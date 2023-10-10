@@ -1,8 +1,61 @@
-// 
+// Componente: Single Search Selection Dropdown //
 
-// Creamos la función de delegación de eventos
+// Delegación de eventos //
 function handleEvents(global_event) {
   const dropdown = global_event.target.closest(".Dropdown");
+  if (dropdown) {
+    // Validación de apertura.
+    if (
+      global_event.target != dropdown.children[0] &&
+      !dropdown.classList.contains("is-open")
+    ) {
+      // 1. Obtener elementos.
+      const search = dropdown.querySelector(".Dropdown-search");
+      const list = dropdown.querySelector(".Dropdown-list");
+      const options = Array.from(list.children);
+
+      // 2. Declarar variables generales.
+
+      // 3. Script de cierre.
+      function close() {
+        dropdown.classList.remove("is-open");
+        search.blur();
+        dropdown.removeEventListener("click", process);
+        dropdown.removeEventListener("keydown", process);
+        console.log("%ccerrado", "color: lightcoral");
+      }
+
+      // 4. Script de procesamiento de acciones.
+      function process(event) {
+        event.stopPropagation();
+        switch (event.type) {
+          case "click":
+            if (event.target === dropdown.children[0]) {
+              close();
+            } else {
+              const picked_option = event.target.closest(".Dropdown-option");
+              if (picked_option) {
+                close();
+              }
+            }
+            break;
+          case "keydown":
+            let keyCode = event.keyCode;
+            if (keyCode === 27 || keyCode === 9) {
+              close();
+            }
+            break;
+        }
+      }
+
+      // 5. Script de apertura.
+      dropdown.classList.add("is-open");
+      search.value = "";
+      dropdown.addEventListener("click", process);
+      dropdown.addEventListener("keydown", process);
+      console.log("%cabierto", "color: lightgreen");
+    }
+  }
 }
 
 function startDropdown(event_1) {
@@ -124,7 +177,6 @@ function startDropdown(event_1) {
     // Preparamos la lista
     search.value = "";
     // Abrir el menu desplegable
-    dropdown.classList.add("is-open");
     let matching_options = 0;
     option_list.forEach((option) => {
       if (option.innerText.toLowerCase().includes(search.value.toLowerCase())) {
@@ -139,11 +191,10 @@ function startDropdown(event_1) {
     document.addEventListener("click", handlingEvents);
     document.addEventListener("keydown", handlingEvents);
     document.addEventListener("keyup", handlingEvents);
-    console.log("%cabierto", "color: lightgreen");
   }
 }
 
-// Establecemos los escuchadores globales
+// Escuchadores globales
 document.addEventListener("click", handleEvents);
 document.addEventListener("focusin", handleEvents);
 document.addEventListener("submit", (event) => event.preventDefault());
