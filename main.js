@@ -1,3 +1,5 @@
+// 
+
 // Creamos la función de delegación de eventos
 function handleEvents(global_event) {
   const dropdown = global_event.target.closest(".Dropdown");
