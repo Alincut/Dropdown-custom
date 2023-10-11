@@ -10,9 +10,14 @@ function handleEvents(global_event) {
       !dropdown.classList.contains("is-open")
     ) {
       // 1. Obtener elementos.
-      const search = dropdown.querySelector(".Dropdown-search");
+      const select = dropdown.querySelector(".Dropdown-select");
+      const search_icon = select.children[0];
+      const search = select.children[1];
+      const switch_icon = select.children[2];
       const list = dropdown.querySelector(".Dropdown-list");
-      const options = Array.from(list.children);
+      const options = Array.from(list.children).filter(
+        (option) => !option.classList.contains("Dropdown-option--message")
+      );
 
       // 2. Declarar variables generales.
 
@@ -30,17 +35,30 @@ function handleEvents(global_event) {
         event.stopPropagation();
         switch (event.type) {
           case "click":
-            if (event.target === dropdown.children[0]) {
+            if (
+              event.target === dropdown.children[0] ||
+              event.target === switch_icon
+            ) {
               close();
             } else {
+              if (event.target === search_icon) {
+                search.focus();
+              }
               const picked_option = event.target.closest(".Dropdown-option");
-              if (picked_option) {
+              if (options.includes(picked_option)) {
+                options.forEach((option) => {
+                  option.classList.toggle(
+                    "is-selected",
+                    option === picked_option
+                  );
+                });
                 close();
               }
             }
             break;
           case "keydown":
             let keyCode = event.keyCode;
+            console.log(keyCode);
             if (keyCode === 27 || keyCode === 9) {
               close();
             }
