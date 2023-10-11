@@ -11,7 +11,7 @@
   --col-900: #111827;
   --col-950: #030712;
   --symbol-pry: hsla(220, 30%, 8%, 0.96);
-  --symbol-sec: hsla(220, 30%, 8%, 0.60);
+  --symbol-sec: hsla(220, 30%, 8%, 0.6);
   --symbol-off: hsla(220, 30%, 8%, 0.48);
 }
 
@@ -46,16 +46,20 @@ label {
 
 /* Componente: Single Search Selection Dropdown */
 .Dropdown {
+  --row-height: 40px;
+
   position: relative;
-  height: 40px;
+  height: var(--row-height);
   width: 240px;
   &.is-open {
-    --Select-position-byOpen: absolute;
-    --Select-outline-byOpen: 1px solid var(--col-300);
-    --Select-shadow-byOpen: 0 2px 10px -2px var(--col-300);
-    --Menu-scale-byOpen: 1;
-    --foo: var(--col-300);
-    --Search-open-cursor: text;
+    --open-position: absolute;
+    --open-border-color: var(--col-400);
+    --open-shadow: 0 2px 10px -2px var(--col-300);
+    --open-rotate: -180deg;
+    --open-cursor-txt: text;
+    --open-cursor-def: default;
+    --open-scale: 1;
+
     .Dropdown-curtain {
       position: fixed;
       top: 0;
@@ -70,28 +74,31 @@ label {
     color: var(--symbol-off);
     display: flex;
     align-items: center;
-    padding: 0 8px;
+    padding: 0 10px;
     height: 100%;
     font-size: 2rem;
-    cursor: pointer;
   }
   .Dropdown-select {
-    position: var(--Select-position-byOpen, static);
+    position: var(--open-position);
     background-color: white;
     display: flex;
     height: 100%;
-    width: 100%;
-    border: 2px solid var(--col-300);
+    border: 2px solid;
+    border-color: var(--open-border-color, var(--col-300));
     border-radius: 8px;
-    box-shadow: var(--Select-shadow-byOpen, none);
+    box-shadow: var(--open-shadow);
     &:hover {
-      border-color: var(--foo, var(--col-400));
-      /* box-shadow: 0 2px 10px -2px var(--col-300); */
-      /* outline-color: var(--col-400); */
-      /* outline: 1px solid var(--col-300); */
+      border-color: var(--col-400);
+    }
+
+    .bx:first-child {
+      cursor: var(--open-cursor-def, pointer);
     }
     .bx:last-child {
       color: var(--symbol-pry);
+      transform: rotate(var(--open-rotate));
+      cursor: pointer;
+      transition: transform 250ms linear;
     }
     .Dropdown-search {
       background-color: transparent;
@@ -100,53 +107,52 @@ label {
       border: none;
       outline: none;
       font-size: 1.4rem;
-      font-weight: 500;
-      cursor: var(--Search-open-cursor, pointer);
+      font-weight: 400;
+      cursor: var(--open-cursor-txt, pointer);
       &::placeholder {
-        color: var(--symbol-off);
+        color: var(--symbol-sec);
         font-weight: 500;
       }
     }
   }
   .Dropdown-menu {
-    z-index: 101;
+    z-index: 10;
     overflow: hidden;
     position: absolute;
     top: calc(100% + 6px);
     background-color: white;
     width: 100%;
-    border: 2px solid var(--col-300);
+    border: 2px solid var(--col-400);
     border-radius: 8px;
-    box-shadow: var(--Select-shadow-byOpen, none);
-    transform: scale(var(--Menu-scale-byOpen, 0));
+    box-shadow: var(--open-shadow);
+    transform: scale(var(--open-scale, 0));
+
     .Dropdown-list {
       overflow-x: hidden;
       overflow-y: scroll;
-      height: fit-content;
-      max-height: 180px;
+      max-height: calc(var(--row-height) * 5);
       list-style: none;
       &.is-short {
         overflow-y: hidden;
       }
+
       .Dropdown-option {
-        overflow: hidden;
         color: var(--symbol-pry);
         display: flex;
         align-items: center;
-        height: 36px;
-        /* border-top: 1px solid var(--col-100); */
-        cursor: pointer;
+        height: var(--row-height);
         font-size: 1.4rem;
-        font-weight: 400;
+        font-weight: 700;
+        cursor: pointer;
         &:hover {
           background-color: var(--col-100);
         }
         &.is-selected {
+          --selected-scale: 1;
+
           background-color: var(--col-200);
           color: var(--symbol-pry);
-          /* border-color: var(--col-200); */
           font-weight: 700;
-          --scale-option: 1;
         }
         &.is-focused {
           background-color: var(--col-100);
@@ -154,10 +160,10 @@ label {
         &.is-hidden {
           display: none;
         }
+
         .bx {
-          padding: 0 8px;
-          font-size: 2rem;
-          /* transform: scale(var(--scale-option, 0)); */
+          /* color: var(--symbol-pry); */
+          /* transform: scale(var(--selected-scale, 0)); */
         }
       }
     }
