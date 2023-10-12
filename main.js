@@ -6,7 +6,9 @@ function handleEvents(global_event) {
   if (dropdown) {
     // Validación de apertura.
     if (
+      // Validar que no se haya dado clic en el elemento 'outside'.
       global_event.target != dropdown.children[0] &&
+      // Validar que el 'dropdown' esté cerrado.
       !dropdown.classList.contains("is-open")
     ) {
       // 1. Obtener elementos.
@@ -21,13 +23,33 @@ function handleEvents(global_event) {
 
       // 2. Declarar variables generales.
 
-      // 3. Script de cierre.
+      // 3. Declaración de funciones utilitarias.
       function close() {
-        dropdown.classList.remove("is-open");
+        if (
+          search.value === "" &&
+          !options.every((option) => !option.classList.contains("is-selected"))
+        ) {
+          search.value = search.placeholder;
+        }
         search.blur();
+        dropdown.classList.remove("is-open");
         dropdown.removeEventListener("click", process);
         dropdown.removeEventListener("keydown", process);
+        dropdown.removeEventListener("keyup", process);
         console.log("%ccerrado", "color: lightcoral");
+      }
+      function filter() {
+        let matching_options = 0;
+        options.forEach((option) => {
+          let match_value = option.innerText
+            .toLowerCase()
+            .includes(search.value.toLowerCase());
+          option.classList.toggle("is-hidden", !match_value);
+          if (match_value) matching_options++;
+        });
+        list.classList.toggle("is-short", matching_options <= 5);
+        list.classList.toggle("is-empty", matching_options === 0);
+        console.log(matching_options);
       }
 
       // 4. Script de procesamiento de acciones.
@@ -53,26 +75,40 @@ function handleEvents(global_event) {
                     );
                   });
                   search.value = picked_option.innerText;
+                  search.placeholder = picked_option.innerText;
                   close();
                 }
                 break;
             }
             break;
           case "keydown":
-            let keyCode = event.keyCode;
-            console.log(keyCode);
-            if (keyCode === 27 || keyCode === 9) {
-              close();
+            switch (event.keyCode) {
+              case 27:
+              case 9:
+                close();
+                break;
+              default:
+                break;
             }
+            break;
+          case "keyup":
+            filter();
+            // let first_option = option_list.find(
+            //   (option) => !option.classList.contains("is-hidden")
+            // );
+            // option_list.forEach((option) => {
+            //   option.classList.toggle("is-up", option === first_option);
+            // });
             break;
         }
       }
 
       // 5. Script de apertura.
+      filter();
       dropdown.classList.add("is-open");
-      search.value = "";
       dropdown.addEventListener("click", process);
       dropdown.addEventListener("keydown", process);
+      dropdown.addEventListener("keyup", process);
       console.log("%cabierto", "color: lightgreen");
     }
   }

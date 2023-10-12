@@ -117,7 +117,7 @@ label {
       font-size: 1.4rem;
       cursor: var(--open-text-cursor, pointer);
       &::placeholder {
-        color: var(--symbol-off);
+        color: var(--symbol-sec);
       }
     }
   }
