@@ -35,25 +35,27 @@ function handleEvents(global_event) {
         event.stopPropagation();
         switch (event.type) {
           case "click":
-            if (
-              event.target === dropdown.children[0] ||
-              event.target === switch_icon
-            ) {
-              close();
-            } else {
-              if (event.target === search_icon) {
-                search.focus();
-              }
-              const picked_option = event.target.closest(".Dropdown-option");
-              if (options.includes(picked_option)) {
-                options.forEach((option) => {
-                  option.classList.toggle(
-                    "is-selected",
-                    option === picked_option
-                  );
-                });
+            switch (event.target) {
+              case dropdown.children[0]:
+              case switch_icon:
                 close();
-              }
+                break;
+              case search_icon:
+                search.focus();
+                break;
+              default:
+                const picked_option = event.target.closest(".Dropdown-option");
+                if (options.includes(picked_option)) {
+                  options.forEach((option) => {
+                    option.classList.toggle(
+                      "is-selected",
+                      option === picked_option
+                    );
+                  });
+                  search.value = picked_option.innerText;
+                  close();
+                }
+                break;
             }
             break;
           case "keydown":
