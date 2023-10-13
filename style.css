@@ -138,6 +138,8 @@ label {
       overflow-x: hidden;
       overflow-y: scroll;
       color: var(--symbol-pry);
+      display: flex;
+      flex-direction: column;
       padding: var(--base-slot-spacing) 0;
       max-height: calc(var(--base-height) * 5 + var(--base-slot-spacing) * 2);
       list-style: none;
@@ -153,9 +155,9 @@ label {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin: 0 var(--base-slot-spacing);
+        /* margin: 0 var(--base-slot-spacing); */
         padding-left: calc(var(--base-inside-spacing) + 2px);
-        height: var(--base-height);
+        min-height: var(--base-height);
         font-size: 1.4rem;
         border-radius: var(--base-rounded);
         cursor: pointer;

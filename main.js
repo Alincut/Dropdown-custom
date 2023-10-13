@@ -23,7 +23,7 @@ function handleEvents(global_event) {
 
       // 2. Declarar variables generales.
       const option_height = options[0].clientHeight;
-      let selected_option_index = options.findIndex((option) =>
+      let selected_option = options.find((option) =>
         option.classList.contains("is-selected")
       );
 
@@ -31,11 +31,12 @@ function handleEvents(global_event) {
       function close() {
         dropdown.classList.remove("is-open");
         dropdown.removeEventListener("click", process);
-        dropdown.removeEventListener("keydown", process);
+        search.removeEventListener("keydown", process);
         search.removeEventListener("keyup", process);
+        list.removeEventListener("mouseenter", process);
         search.blur();
         if (search.value === "") {
-          let selected_option = options.find((option) =>
+          selected_option = options.find((option) =>
             option.classList.contains("is-selected")
           );
           if (selected_option) {
@@ -89,10 +90,17 @@ function handleEvents(global_event) {
             }
             break;
           case "keydown":
+            let focused_option_index = options.findIndex((option) =>
+              option.classList.contains("is-focused")
+            );
             switch (event.keyCode) {
               case 27:
               case 9:
                 close();
+                break;
+              case 40:
+              case 38:
+                console.log(focused_option_index);
                 break;
               default:
                 break;
@@ -101,18 +109,28 @@ function handleEvents(global_event) {
           case "keyup":
             filter();
             break;
+          case "mouseenter":
+            if (selected_option) {
+              selected_option.classList.remove("is-focused");
+            }
+            console.log("1");
+            break;
         }
       }
 
       // 5. Script de apertura.
       dropdown.classList.add("is-open");
       dropdown.addEventListener("click", process);
-      dropdown.addEventListener("keydown", process);
+      search.addEventListener("keydown", process);
       search.addEventListener("keyup", process);
+      list.addEventListener("mouseenter", process);
       search.value = "";
       search.focus();
       filter();
-      list.scrollTop = option_height * selected_option_index;
+      list.scrollTop = option_height * options.indexOf(selected_option);
+      options.forEach((option) => {
+        option.classList.toggle("is-focused", option === selected_option);
+      });
       console.log("%cabierto", "color: lightgreen");
     }
   }
