@@ -22,20 +22,21 @@ function handleEvents(global_event) {
       );
 
       // 2. Declarar variables generales.
+      const option_height = options[0].clientHeight;
 
       // 3. Declaración de funciones utilitarias.
       function close() {
+        dropdown.classList.remove("is-open");
+        dropdown.removeEventListener("click", process);
+        dropdown.removeEventListener("keydown", process);
+        dropdown.removeEventListener("keyup", process);
+        search.blur();
         if (
           search.value === "" &&
           !options.every((option) => !option.classList.contains("is-selected"))
         ) {
           search.value = search.placeholder;
         }
-        search.blur();
-        dropdown.classList.remove("is-open");
-        dropdown.removeEventListener("click", process);
-        dropdown.removeEventListener("keydown", process);
-        dropdown.removeEventListener("keyup", process);
         console.log("%ccerrado", "color: lightcoral");
       }
       function filter() {
@@ -76,6 +77,8 @@ function handleEvents(global_event) {
                   });
                   search.value = picked_option.innerText;
                   search.placeholder = picked_option.innerText;
+                  // list.scrollTop =
+                  //   options.indexOf(picked_option) * option_height;
                   close();
                 }
                 break;
@@ -93,12 +96,6 @@ function handleEvents(global_event) {
             break;
           case "keyup":
             filter();
-            // let first_option = option_list.find(
-            //   (option) => !option.classList.contains("is-hidden")
-            // );
-            // option_list.forEach((option) => {
-            //   option.classList.toggle("is-up", option === first_option);
-            // });
             break;
         }
       }
@@ -106,6 +103,8 @@ function handleEvents(global_event) {
       // 5. Script de apertura.
       filter();
       dropdown.classList.add("is-open");
+      search.value = "";
+      search.focus();
       dropdown.addEventListener("click", process);
       dropdown.addEventListener("keydown", process);
       dropdown.addEventListener("keyup", process);
