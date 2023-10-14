@@ -33,7 +33,8 @@ function handleEvents(global_event) {
         dropdown.removeEventListener("click", process);
         search.removeEventListener("keydown", process);
         search.removeEventListener("keyup", process);
-        list.removeEventListener("mouseenter", process);
+        list.removeEventListener("mouseover", process);
+        list.removeEventListener("mouseout", process);
         search.blur();
         if (search.value === "") {
           selected_option = options.find((option) =>
@@ -100,6 +101,20 @@ function handleEvents(global_event) {
                 break;
               case 40:
               case 38:
+                focused_option_index = Math.max(
+                  0,
+                  Math.min(
+                    focused_option_index + (event.keyCode === 40 ? 1 : -1),
+                    options.length - 1
+                  )
+                );
+                options.forEach((option) => {
+                  option.classList.toggle(
+                    "is-focused",
+                    option === options[focused_option_index]
+                  );
+                });
+                list.scrollTop = option_height * focused_option_index;
                 console.log(focused_option_index);
                 break;
               default:
@@ -109,11 +124,15 @@ function handleEvents(global_event) {
           case "keyup":
             filter();
             break;
-          case "mouseenter":
-            if (selected_option) {
-              selected_option.classList.remove("is-focused");
+          case "mouseover":
+            if (options.includes(event.target)) {
+              event.target.classList.add("is-focused");
             }
-            console.log("1");
+            break;
+          case "mouseout":
+            if (options.includes(event.target)) {
+              event.target.classList.remove("is-focused");
+            }
             break;
         }
       }
@@ -123,7 +142,8 @@ function handleEvents(global_event) {
       dropdown.addEventListener("click", process);
       search.addEventListener("keydown", process);
       search.addEventListener("keyup", process);
-      list.addEventListener("mouseenter", process);
+      list.addEventListener("mouseover", process);
+      list.addEventListener("mouseout", process);
       search.value = "";
       search.focus();
       filter();

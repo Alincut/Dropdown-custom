@@ -155,15 +155,12 @@ label {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        /* margin: 0 var(--base-slot-spacing); */
+        margin: 0 var(--base-slot-spacing);
         padding-left: calc(var(--base-inside-spacing) + 2px);
         min-height: var(--base-height);
         font-size: 1.4rem;
         border-radius: var(--base-rounded);
         cursor: pointer;
-        &:hover {
-          background-color: var(--base-emphasis-background-color);
-        }
         &.is-selected {
           --selected-scale: 1;
 
