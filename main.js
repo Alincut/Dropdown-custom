@@ -23,6 +23,8 @@ function handleEvents(global_event) {
 
       // 2. Declarar variables generales.
       const option_height = options[0].clientHeight;
+      const scroll_height =
+        list.clientHeight - (list.clientHeight % option_height);
       let selected_option = options.find((option) =>
         option.classList.contains("is-selected")
       );
@@ -62,7 +64,6 @@ function handleEvents(global_event) {
           option.classList.toggle("is-hidden", !match_value);
           if (match_value) matching_options++;
         });
-        console.log(matching_options);
         list.classList.toggle("is-short", matching_options <= 5);
         list.classList.toggle("is-empty", matching_options === 0);
         filtered_options = options.filter(
@@ -71,7 +72,6 @@ function handleEvents(global_event) {
         if (matching_options > 0) {
           filtered_options[0].classList.add("is-focused");
         }
-        console.log(matching_options);
       }
 
       // 4. Script de procesamiento de acciones.
@@ -111,34 +111,49 @@ function handleEvents(global_event) {
                 break;
               case 40:
               case 38:
+              case 13:
                 event.preventDefault();
                 let focused_option_index = filtered_options.findIndex(
                   (option) => option.classList.contains("is-focused")
                 );
-                console.log(filtered_options);
-                filtered_options[focused_option_index].classList.remove(
-                  "is-focused"
-                );
-                focused_option_index = Math.max(
-                  0,
-                  Math.min(
-                    focused_option_index + (event.keyCode === 40 ? 1 : -1),
-                    filtered_options.length - 1
-                  )
-                );
-                filtered_options[focused_option_index].classList.add(
-                  "is-focused"
-                );
-                // options.forEach((option) => {
-                //   option.classList.toggle(
-                //     "is-focused",
-                //     option === options[focused_option_index]
-                //   );
-                // });
-                // list.scrollTop = option_height * focused_option_index;
-                // console.log(focused_option_index);
-                break;
-              default:
+                if (event.keyCode === 13) {
+                  selected_option = filtered_options[focused_option_index];
+                  if (options.includes(selected_option)) {
+                    options.forEach((option) => {
+                      option.classList.toggle(
+                        "is-selected",
+                        option === selected_option
+                      );
+                    });
+                    search.value = selected_option.innerText;
+                    search.placeholder = selected_option.innerText;
+                    close();
+                  }
+                } else {
+                  filtered_options[focused_option_index].classList.remove(
+                    "is-focused"
+                  );
+                  focused_option_index = Math.max(
+                    0,
+                    Math.min(
+                      focused_option_index + (event.keyCode === 40 ? 1 : -1),
+                      filtered_options.length - 1
+                    )
+                  );
+                  filtered_options[focused_option_index].classList.add(
+                    "is-focused"
+                  );
+                  let scroll_value = list.scrollTop;
+                  let current_scroll = focused_option_index * option_height;
+                  if (current_scroll - scroll_value >= scroll_height) {
+                    scroll_value += option_height;
+                    list.scrollTop = scroll_value;
+                  }
+                  if (current_scroll - scroll_value < 0) {
+                    scroll_value -= option_height;
+                    list.scrollTop = scroll_value;
+                  }
+                }
                 break;
             }
             break;
@@ -148,6 +163,7 @@ function handleEvents(global_event) {
                 option.classList.remove("is-focused");
               });
               filter();
+              list.scrollTop = 0;
             }
             break;
           case "mousemove":
@@ -173,7 +189,8 @@ function handleEvents(global_event) {
         options.forEach((option) => {
           option.classList.toggle("is-focused", option === selected_option);
         });
-      } else list.scrollTop = option_height * options.indexOf(selected_option);
+        list.scrollTop = option_height * options.indexOf(selected_option);
+      }
       console.log("%cabierto", "color: lightgreen");
     }
   }
