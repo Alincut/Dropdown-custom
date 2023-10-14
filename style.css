@@ -6,10 +6,6 @@
   --col-400: #9ca3af;
   --col-500: #6b7280;
   --col-600: #4b5563;
-  --col-700: #374151;
-  --col-800: #1f2937;
-  --col-900: #111827;
-  --col-950: #030712;
   --symbol-pry: hsla(220, 30%, 8%, 0.96);
   --symbol-sec: hsla(220, 30%, 8%, 0.6);
   --symbol-off: hsla(220, 30%, 8%, 0.4);
@@ -25,12 +21,27 @@
 
 body {
   background-color: white;
+  height: 100vh;
+  width: 100vw;
+  &.is-dark {
+    --col-700: #374151;
+    --col-800: #1f2937;
+    --col-900: #111827;
+    --col-950: #030712;
+    --symbol-pry-dark: hsla(0, 0%, 100%, 0.96);
+    --symbol-sec-dark: hsla(0, 0%, 100%, 0.6);
+    --symbol-off-dark: hsla(0, 0%, 100%, 0.4);
+  }
+}
+
+.Container {
+  background-color: var(--col-950, white);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }
 
 form {
@@ -40,15 +51,16 @@ form {
 }
 
 label {
-  color: var(--symbol-pry);
+  /* color: var(var(--symbol-pry-dark),var(--symbol-pry)); */
+  color: white;
   font-size: 1.4rem;
   font-weight: 700;
 }
 
 /* Componente: Single Search Selection Dropdown */
 .Dropdown {
-  --base-background-color: white;
-  --base-emphasis-background-color: var(--col-200);
+  --base-background-color: var(--col-950, white);
+  --base-emphasis-background-color: var(var(--col-800), --col-200);
   --base-slot-spacing: 6px;
   --base-inside-spacing: 10px;
   --base-height: 36px;
@@ -110,6 +122,7 @@ label {
       transition: transform 250ms ease;
     }
     .Dropdown-search {
+      background-color: var(--base-background-color);
       color: var(--symbol-pry);
       width: 100%;
       border: none;

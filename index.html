@@ -20,83 +20,87 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <form autocomplete="off">
-      <label for="search1">Marca</label>
-      <div id="Dropdwon01" class="Dropdown">
-        <div class="Dropdown-outside"></div>
-        <div class="Dropdown-select">
-          <i class="bx bx-car"></i>
-          <input
-            type="text"
-            id="search1"
-            class="Dropdown-search"
-            placeholder="Marca"
-          />
-          <i class="bx bx-chevron-down"></i>
+    <div class="Container">
+      <form autocomplete="off">
+        <label for="search1">Marca</label>
+        <div id="Dropdwon01" class="Dropdown">
+          <div class="Dropdown-outside"></div>
+          <div class="Dropdown-select">
+            <i class="bx bx-car"></i>
+            <input
+              type="text"
+              id="search1"
+              class="Dropdown-search"
+              placeholder="Marca"
+            />
+            <i class="bx bx-chevron-down"></i>
+          </div>
+          <div class="Dropdown-menu">
+            <ul class="Dropdown-list">
+              <li class="Dropdown-option">
+                Ferrari
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                Dodge
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                Nissan
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                Honda
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                Toyota
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                Mercedes
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                Hyundai
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                Mitsubishi
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                Chevrolet
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                Volkswagen
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                BMW
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                Ford
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                Audi
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option">
+                Mazda
+                <i class="bx bx-check"></i>
+              </li>
+              <li class="Dropdown-option--message">Sin resultados.</li>
+            </ul>
+          </div>
         </div>
-        <div class="Dropdown-menu">
-          <ul class="Dropdown-list">
-            <li class="Dropdown-option">
-              Ferrari
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              Dodge
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              Nissan
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              Honda
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              Toyota
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              Mercedes
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              Hyundai
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              Mitsubishi
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              Chevrolet
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              Volkswagen
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              BMW
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              Ford
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              Audi
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option">
-              Mazda
-              <i class="bx bx-check"></i>
-            </li>
-            <li class="Dropdown-option--message">Sin resultados.</li>
-          </ul>
-        </div>
-      </div>
-    </form>
+      </form>
+
+      <button type="button" onclick="dark()">Dark mode</button>
+    </div>
 
     <script type="text/javascript" src="./main.js"></script>
   </body>

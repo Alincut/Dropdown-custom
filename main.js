@@ -200,3 +200,7 @@ function handleEvents(global_event) {
 document.addEventListener("click", handleEvents);
 document.addEventListener("focusin", handleEvents);
 document.addEventListener("submit", (event) => event.preventDefault());
+
+function dark() {
+  document.querySelector("body").classList.add("is-dark");
+}
