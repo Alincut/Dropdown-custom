@@ -41,14 +41,14 @@ function handleEvents(global_event) {
         search.removeEventListener("keyup", process);
         list.removeEventListener("mousemove", process);
         search.blur();
-        if (search.value === "") {
-          selected_option = options.find((option) =>
-            option.classList.contains("is-selected")
-          );
-          if (selected_option) {
-            search.value = selected_option.innerText;
-            search.placeholder = selected_option.innerText;
-          }
+        selected_option = options.find((option) =>
+          option.classList.contains("is-selected")
+        );
+        if (selected_option) {
+          search.value = selected_option.children[0].innerText;
+          search.placeholder = selected_option.children[0].innerText;
+        } else {
+          search.value = "";
         }
         options.forEach((option) => {
           option.classList.remove("is-focused");
