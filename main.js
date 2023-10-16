@@ -52,6 +52,7 @@ function handleEvents(global_event) {
         }
         options.forEach((option) => {
           option.classList.remove("is-focused");
+          option.classList.remove("is-hidden");
         });
         console.log("%ccerrado", "color: lightcoral");
       }
@@ -163,7 +164,7 @@ function handleEvents(global_event) {
                 option.classList.remove("is-focused");
               });
               filter();
-              list.scrollTop = 0;
+              // list.scrollTop = 0;
             }
             break;
           case "mousemove":

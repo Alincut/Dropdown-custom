@@ -168,7 +168,7 @@ label {
       &::-webkit-scrollbar-thumb {
         background-color: var(--symbol-off);
         border-radius: 18px;
-        border: 6px solid var(--base-background-color);
+        border: var(--base-slot-spacing) solid var(--base-background-color);
       }
       &::-webkit-scrollbar-thumb:hover {
         background-color: var(--symbol-sec);
