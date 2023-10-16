@@ -2,38 +2,26 @@
 
 // Delegación de eventos //
 function handleEvents(global_event) {
+  global_event.stopPropagation();
   const dropdown = global_event.target.closest(".Dropdown");
   if (dropdown) {
-    // Validación de apertura.
-    if (
-      // Validar que no se haya dado clic en el elemento 'outside'.
-      global_event.target != dropdown.children[0] &&
-      // Validar que el 'dropdown' esté cerrado.
-      !dropdown.classList.contains("is-open")
-    ) {
-      // 1. Obtener elementos.
+    // Validar que el 'dropdown' esté cerrado.
+    if (!dropdown.classList.contains("is-open")) {
+      // Declaración de variables //
       const select = dropdown.querySelector(".Dropdown-select");
-      const search_icon = select.children[0];
-      const search = select.children[1];
-      const switch_icon = select.children[2];
+      const search = dropdown.querySelector(".Dropdown-search");
       const list = dropdown.querySelector(".Dropdown-list");
-      const options = Array.from(list.children).filter(
-        (option) => !option.classList.contains("Dropdown-option--message")
-      );
-
-      // 2. Declarar variables generales.
+      const options = Array.from(dropdown.querySelectorAll(".Dropdown-option"));
+      let filtered_options = [...options];
+      let selected_option = options.find((option) => {
+        return option.classList.contains("is-selected");
+      });
       const option_height = options[0].clientHeight;
       const scroll_height =
         list.clientHeight - (list.clientHeight % option_height);
-      let selected_option = options.find((option) =>
-        option.classList.contains("is-selected")
-      );
-      let filtered_options = options.filter(
-        (option) => !option.classList.contains("is-hidden")
-      );
       let matching_options = 0;
 
-      // 3. Declaración de funciones utilitarias.
+      // Declaración de funciones //
       function close() {
         dropdown.classList.remove("is-open");
         dropdown.removeEventListener("click", process);
@@ -41,29 +29,21 @@ function handleEvents(global_event) {
         search.removeEventListener("keyup", process);
         list.removeEventListener("mousemove", process);
         search.blur();
-        selected_option = options.find((option) =>
-          option.classList.contains("is-selected")
-        );
         if (selected_option) {
           search.value = selected_option.children[0].innerText;
-          search.placeholder = selected_option.children[0].innerText;
-        } else {
-          search.value = "";
-        }
+          search.placeholder = search.value;
+        } else search.value = "";
         options.forEach((option) => {
-          option.classList.remove("is-focused");
-          option.classList.remove("is-hidden");
+          option.classList.remove("is-focused", "is-hidden");
         });
+        list.classList.remove("is-short", "is-empty");
         console.log("%ccerrado", "color: lightcoral");
       }
       function filter() {
-        matching_options = 0;
         options.forEach((option) => {
-          let match_value = option.innerText
-            .toLowerCase()
-            .includes(search.value.toLowerCase());
-          option.classList.toggle("is-hidden", !match_value);
-          if (match_value) matching_options++;
+          option.innerText.toLowerCase().includes(search.value.toLowerCase())
+            ? (matching_options++, option.classList.remove("is-hidden"))
+            : option.classList.add("is-hidden");
         });
         list.classList.toggle("is-short", matching_options <= 5);
         list.classList.toggle("is-empty", matching_options === 0);
@@ -72,33 +52,36 @@ function handleEvents(global_event) {
         );
         if (matching_options > 0) {
           filtered_options[0].classList.add("is-focused");
+          matching_options = 0;
         }
       }
-
-      // 4. Script de procesamiento de acciones.
       function process(event) {
         event.stopPropagation();
         switch (event.type) {
           case "click":
             switch (event.target) {
               case dropdown.children[0]:
-              case switch_icon:
+              case select.children[2]:
                 close();
                 break;
-              case search_icon:
+              case select.children[0]:
                 search.focus();
                 break;
               default:
-                const picked_option = event.target.closest(".Dropdown-option");
-                if (options.includes(picked_option)) {
+                selected_option = event.target.closest(".Dropdown-option");
+                if (options.includes(selected_option)) {
+                  // options.forEach((option) => {
+                  //   option.classList.toggle(
+                  //     "is-selected",
+                  //     option === selected_option
+                  //   );
+                  // });
                   options.forEach((option) => {
-                    option.classList.toggle(
-                      "is-selected",
-                      option === picked_option
-                    );
+                    option.classList.remove("is-selected");
                   });
-                  search.value = picked_option.innerText;
-                  search.placeholder = picked_option.innerText;
+                  selected_option.classList.add("is-selected");
+                  search.value = selected_option.children[0].innerText;
+                  search.placeholder = search.value;
                   close();
                 }
                 break;
@@ -144,16 +127,11 @@ function handleEvents(global_event) {
                   filtered_options[focused_option_index].classList.add(
                     "is-focused"
                   );
-                  let scroll_value = list.scrollTop;
-                  let current_scroll = focused_option_index * option_height;
-                  if (current_scroll - scroll_value >= scroll_height) {
-                    scroll_value += option_height;
-                    list.scrollTop = scroll_value;
-                  }
-                  if (current_scroll - scroll_value < 0) {
-                    scroll_value -= option_height;
-                    list.scrollTop = scroll_value;
-                  }
+                  let new_scroll = focused_option_index * option_height;
+                  let difference = new_scroll - list.scrollTop;
+                  list.scrollTop +=
+                    option_height *
+                    (difference < 0 ? -1 : difference >= scroll_height ? 1 : 0);
                 }
                 break;
             }
@@ -164,7 +142,6 @@ function handleEvents(global_event) {
                 option.classList.remove("is-focused");
               });
               filter();
-              // list.scrollTop = 0;
             }
             break;
           case "mousemove":
@@ -177,7 +154,7 @@ function handleEvents(global_event) {
         }
       }
 
-      // 5. Script de apertura.
+      // Script de apertura //
       dropdown.classList.add("is-open");
       dropdown.addEventListener("click", process);
       search.addEventListener("keydown", process);
@@ -185,19 +162,16 @@ function handleEvents(global_event) {
       list.addEventListener("mousemove", process);
       search.value = "";
       search.focus();
-      filter();
       if (selected_option) {
-        options.forEach((option) => {
-          option.classList.toggle("is-focused", option === selected_option);
-        });
+        selected_option.classList.add("is-focused");
         list.scrollTop = option_height * options.indexOf(selected_option);
-      }
+      } else filtered_options[0].classList.add("is-focused");
       console.log("%cabierto", "color: lightgreen");
     }
   }
 }
 
-// Escuchadores globales
+// Escuchadores globales //
 document.addEventListener("click", handleEvents);
 document.addEventListener("focusin", handleEvents);
 document.addEventListener("submit", (event) => event.preventDefault());
