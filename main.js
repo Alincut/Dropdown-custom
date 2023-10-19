@@ -6,7 +6,7 @@ function handleEvents(global_event) {
   const dropdown = global_event.target.closest(".Dropdown");
   if (dropdown) {
     if (!dropdown.classList.contains("is-open")) {
-      // ••• Declarar variables ••• //
+      // Declarar variables...
       const outside = dropdown.querySelector(".Dropdown-outside");
       const select = dropdown.querySelector(".Dropdown-select");
       const search = dropdown.querySelector(".Dropdown-search");
@@ -21,7 +21,7 @@ function handleEvents(global_event) {
         list.clientHeight - (list.clientHeight % option_height);
       let matching_options = 0;
 
-      // ••• Declarar funciones ••• //
+      // Declarar funciones...
       function close() {
         dropdown.classList.remove("is-open");
         dropdown.removeEventListener("click", process);
@@ -151,7 +151,7 @@ function handleEvents(global_event) {
         }
       }
 
-      // ••• Activar interacción ••• //
+      // Activar interacción...
       dropdown.classList.add("is-open");
       dropdown.addEventListener("click", process);
       search.addEventListener("keydown", process);
@@ -164,7 +164,6 @@ function handleEvents(global_event) {
         list.scrollTop = option_height * options.indexOf(selected_option);
       } else options[0].classList.add("is-focused");
       console.log("%cabierto", "color: lightgreen");
-      console.log(selected_option);
     }
   }
 }
